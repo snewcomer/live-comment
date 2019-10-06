@@ -1,0 +1,24 @@
+<a id="comment-<%= @comment.id %>" class="anchor"></a>
+<article class="comment <%= @parent %> js-comment" data-id="<%= @comment.id %>">
+  <div class="comment-body">
+    <%= @comment.body |> raw() %>
+  </div>
+
+  <div class="comment-footer">
+    <p class="comment-reply">
+      <a href="javascript:void(0)" title="Reply to this comment" class="js-comment-reply">reply</a>
+    </p>
+
+    <p class="comment-permalink">
+      <%= link(to: "#comment-#{@comment.id}") do %>
+        <%= format_time(@comment.inserted_at) %>
+      <% end %>
+    </p>
+  </div>
+
+  <%= render("reply_form.html", Map.merge(assigns, %{parent: @comment})) %>
+
+  <section class="comment-replies">
+    <%= render_many(@comment.children, __MODULE__, "show.html", Map.merge(assigns, %{parent: "comment--child"})) %>
+  </section>
+</article>

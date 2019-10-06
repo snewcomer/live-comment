@@ -1,0 +1,9 @@
+<div class="main">
+  <div class="js-comment" phx-update="ignore">
+    <%= render("form.html", assigns) %>
+  </div>
+
+  <div class="comment_list" phx-hook="CommentList">
+    <%= render_many(@comments, __MODULE__, "show.html", Map.merge(assigns, %{parent: "comment--parent"})) %>
+  </div>
+</div>

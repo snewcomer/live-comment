@@ -1,0 +1,11 @@
+<%= form_for @changeset,
+  "#",
+  [id: "main-comment-form", class: "comment_form", phx_submit: :save],
+  fn(f) -> %>
+
+  <%= textarea(f, :body, rows: 2, required: true, placeholder: "Cool beans...") %>
+
+  <div class="comment_form-footer">
+    <button type="submit">Comment</button>
+  </div>
+<% end %>
