@@ -1,0 +1,93 @@
+/* This file is for your main application css. */
+@import "./variables.css";
+
+.comment_form {
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  border: 1px solid var(--gray-300);
+  margin-bottom: 20px;
+  min-height: 100px;
+}
+
+.comment_form-footer {
+  background-color: var(--gray-200);
+  border-top: 1px solid var(--gray-300);
+  height: 100%;
+  flex: none;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.comment_form-footer button {
+  padding: 10px;
+  background: var(--purple-500);
+  color: var(--white);
+}
+
+.comment_form textarea {
+  flex: 1 1 auto;
+  border: none;
+  line-height: 1.50;
+  color: var(--gray-600);
+  padding: 0.5em 1em;
+  appearance: none;
+  background-color: transparent;
+  outline: none;
+  font-size: 1.1em;
+}
+
+.comment_form.is-hidden {
+  display: none;
+}
+
+.comment_list {
+  margin: 5px 20px;
+}
+
+.comment {
+  margin-left: 6px;
+}
+
+.comment--parent {
+  margin-top: 16px;
+}
+
+.comment-body {
+  font-size: 1.1em;
+}
+
+.comment-replies {
+  margin-left: 4px;
+}
+
+.comment-reply {
+  background-color: var(--blue-100);
+  border-radius: 3px;
+}
+.comment-reply:hover {
+  background-color: var(--blue-200);
+}
+
+.comment-reply a {
+  text-decoration: none;
+  padding: 10px 4px;
+  color: var(--gray-600);
+}
+
+.comment-footer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.comment-permalink {
+  margin-right: 0;
+}
+
+.comment-permalink a {
+  text-decoration: none;
+  color: var(--gray-500);
+  font-size: 0.8em;
+}
+

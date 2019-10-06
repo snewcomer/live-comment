@@ -1,0 +1,8 @@
+<section>
+  <header>
+    <h2>Discussion</h2>
+  </header>
+
+  <%= live_render(@conn, LiveCommentWeb.CommentLive) %>
+</section>
+
