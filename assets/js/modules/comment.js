@@ -34,6 +34,12 @@ export default class Comment {
 
     if (this.replyForm) {
       // LiveView does not include form data in phx-key*** events, so we manually manage here
+      // TODO: see socket.js for work to clear form
+      // This will not work atm b/c form submit in LV is called first
+      // this.replyForm.addEventListener('submit', event => {
+      //   this.replyForm.reset();
+      // });
+
       this.replyForm.addEventListener('keydown', event => {
         if ((event.metaKey || event.ctrlKey) && event.key == 'Enter') {
           this.replyForm.dispatchEvent(
