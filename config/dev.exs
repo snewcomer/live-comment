@@ -4,7 +4,7 @@ use Mix.Config
 config :live_comment, LiveComment.Repo,
   username: "postgres",
   password: "postgres",
-  database: "live_comment_dev",
+  database: "live_comment_dev_2",
   hostname: "localhost",
   show_sensitive_data_on_connection_error: true,
   pool_size: 10

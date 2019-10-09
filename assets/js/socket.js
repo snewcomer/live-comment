@@ -1,5 +1,5 @@
 import {Socket} from "phoenix"
-import LiveSocket from "./phoenix_live_view"
+import {LiveSocket, debug} from "./phoenix_live_view"
 import Comment from './modules/comment';
 
 function buildComments(selector = '.js-comment') {
@@ -28,5 +28,5 @@ hooks.CommentList = {
   }
 }
 
-let liveSocket = new LiveSocket("/live", Socket, { hooks });
+let liveSocket = new LiveSocket("/live", Socket, {});
 liveSocket.connect();

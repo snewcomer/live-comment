@@ -26,7 +26,7 @@ defmodule LiveCommentWeb.CommentLive.Show do
 
       <%= if @form_visible do %>
         <%= f = form_for @changeset, "#", [class: "comment_form", phx_submit: :save] %>
-          <%= textarea f, :body, rows: 2, required: true, placeholder: "Your reply..." %>
+          <%= textarea f, :body, rows: 2, required: true, placeholder: "Your reply...", autofocus: true %>
           <div class="comment_form-footer">
             <button type="submit">Reply</button>
           </div>
@@ -63,7 +63,7 @@ defmodule LiveCommentWeb.CommentLive.Show do
     |> Managed.create_comment()
     |> case do
       {:ok, new_comment} ->
-        {:noreply, assign(socket, :children, [new_comment])}
+        {:noreply, assign(socket, form_visible: false, children: [new_comment])}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, changeset: changeset)}
