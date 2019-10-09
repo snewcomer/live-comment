@@ -56,7 +56,10 @@ defmodule LiveComment.Managed do
     %Comment{}
     |> Comment.changeset(attrs)
     |> Repo.insert()
+    |> preload()
   end
+  defp preload({:ok, %Comment{} = comment}), do: {:ok, Repo.preload(comment, :children)}
+  defp preload({:error, _reason} = err), do: err
 
   @doc """
   ## Examples

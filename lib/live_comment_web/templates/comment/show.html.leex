@@ -18,7 +18,9 @@
 
   <%= render("reply_form.html", Map.merge(assigns, %{parent: @comment})) %>
 
-  <section class="comment-replies">
-    <%= render_many(@comment.children, __MODULE__, "show.html", Map.merge(assigns, %{parent: "comment--child"})) %>
+  <section class="comment-replies" id="replies-<%= @comment.id %>" phx-update="append">
+    <%= for child <- @comment.children do %>
+      <%= render(__MODULE__, "show.html", Map.merge(assigns, %{comment: child, parent: "comment--child"})) %>
+    <% end %>
   </section>
 </article>

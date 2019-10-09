@@ -1,5 +1,5 @@
 import {Socket} from "phoenix"
-import LiveSocket from "phoenix_live_view"
+import LiveSocket from "./phoenix_live_view"
 import Comment from './modules/comment';
 
 function buildComments(selector = '.js-comment') {
@@ -12,6 +12,7 @@ function buildComments(selector = '.js-comment') {
 }
 
 let hooks = {};
+
 hooks.CommentList = {
   mounted() {
     buildComments();

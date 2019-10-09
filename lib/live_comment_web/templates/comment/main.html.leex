@@ -4,6 +4,8 @@
   </div>
 
   <div class="comment_list" phx-hook="CommentList">
-    <%= render_many(@comments, __MODULE__, "show.html", Map.merge(assigns, %{parent: "comment--parent"})) %>
+    <%= for comment <- @comments do %>
+      <%= render(__MODULE__, "show.html", Map.merge(assigns, %{comment: comment, parent: "comment--parent"})) %>
+    <% end %>
   </div>
 </div>

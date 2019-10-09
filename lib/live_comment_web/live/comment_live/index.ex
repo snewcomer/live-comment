@@ -1,11 +1,29 @@
-defmodule LiveCommentWeb.CommentLive do
+defmodule LiveCommentWeb.CommentLive.Index do
   use Phoenix.LiveView
+  use Phoenix.HTML
 
   alias LiveComment.Managed
-  alias LiveComment.Managed.Comment
+  alias LiveCommentWeb.CommentLive
 
   def render(assigns) do
-    Phoenix.View.render(LiveCommentWeb.CommentView, "main.html", assigns)
+    ~L"""
+    <div class="main">
+      <div>
+        <%= f = form_for @changeset, "#", [id: "main-comment-form", class: "comment_form", phx_submit: :save] %>
+          <%= textarea f, :body, rows: 2, required: true, placeholder: "Cool beans..." %>
+          <div class="comment_form-footer">
+            <button type="submit">Comment</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="comment_list">
+        <%= for comment <- @comments do %>
+          <%= live_component @socket, CommentLive.Show, id: comment.id, comment: comment, kind: :parent %>
+        <% end %>
+      </div>
+    </div>
+    """
   end
 
   def mount(_session, socket) do
@@ -14,7 +32,7 @@ defmodule LiveCommentWeb.CommentLive do
       changeset = Managed.change_comment()
     do
       socket = assign(socket, [changeset: changeset, comments: comments])
-      {:ok, socket}
+      {:ok, socket, temporary_assigns: [comments: []]}
     end
   end
 
