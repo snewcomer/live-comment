@@ -1,6 +1,7 @@
 import {Socket} from "phoenix"
 import {LiveSocket, debug} from "./phoenix_live_view"
 import Comment from './modules/comment';
+import autosize from "autosize"
 
 function buildComments(selector = '.js-comment') {
   let comments = [...document.querySelectorAll(selector)];
@@ -12,6 +13,12 @@ function buildComments(selector = '.js-comment') {
 }
 
 let hooks = {};
+
+hooks.CommentTextArea = {
+  mounted(){
+    autosize(this.el)
+  }
+}
 
 hooks.CommentList = {
   mounted() {
@@ -28,5 +35,5 @@ hooks.CommentList = {
   }
 }
 
-let liveSocket = new LiveSocket("/live", Socket, {});
+let liveSocket = new LiveSocket("/live", Socket, {hooks: hooks});
 liveSocket.connect();

@@ -8,21 +8,44 @@ defmodule LiveComment.Managed do
 
   alias LiveComment.Managed.Comment
 
+  @pubsub LiveComment.PubSub
+  @topic "comments"
+
+  def subscribe(content_id) do
+    Phoenix.PubSub.subscribe(@pubsub, topic(content_id))
+  end
+
+  defp topic(content_id), do: "#{@topic}:#{content_id}"
+
   @doc """
-  Returns the list of comments.
+  Returns the list of root comments.
 
   ## Examples
 
-      iex> list_comments()
+      iex> list_root_comments()
       [%Comment{}, ...]
 
   """
-  def list_comments do
-    Comment
-    |> Comment.newest_last()
-    |> Comment.preload_all()
+  def list_root_comments do
+    from(c in Comment, where: is_nil(c.parent_id), order_by: [asc: :inserted_at])
     |> Repo.all()
   end
+
+  @doc """
+  Returns the nested list nsted of comment threads.
+
+  ## Examples
+
+      iex> list_threaded_comments()
+      [%Comment{}, ...]
+
+  """
+  def list_threaded_comments do
+    from(c in Comment, order_by: [desc: :inserted_at])
+    |> Repo.all()
+    |> nested_comments()
+  end
+
 
   @doc """
   Gets a single comment.
@@ -57,9 +80,27 @@ defmodule LiveComment.Managed do
     |> Comment.changeset(attrs)
     |> Repo.insert()
     |> preload()
+    |> broadcast_new_comment()
   end
   defp preload({:ok, %Comment{} = comment}), do: {:ok, Repo.preload(comment, :children)}
   defp preload({:error, _reason} = err), do: err
+
+  defp broadcast_new_comment({:ok, comment}) do
+    Phoenix.PubSub.broadcast_from!(@pubsub, self(), topic("lobby"), {__MODULE__, :new_comment, comment})
+    {:ok, comment}
+  end
+  defp broadcast_new_comment({:error, _} = err), do: err
+
+  @doc """
+  Fetches all child comments for a list of parent comment IDs.
+
+  Returns results as a map grouped by parent_id.
+  """
+  def fetch_child_comments(parent_ids) do
+    from(c in Comment, where: c.parent_id in ^parent_ids)
+    |> Repo.all()
+    |> Enum.group_by(&(&1.parent_id))
+  end
 
   @doc """
   ## Examples

@@ -33,17 +33,6 @@ defmodule LiveComment.Managed.Comment do
     |> Map.get(nil)
   end
 
-  def preload_all(query = %Ecto.Query{}) do
-    query
-    |> Ecto.Query.preload(:parent)
-    |> Ecto.Query.preload(:children)
-  end
-  def preload_all(comment) do
-    comment
-    |> Repo.preload(:parent)
-    |> Repo.preload(:children)
-  end
-
   def newest_last(query, field \\ :inserted_at) do
     from(q in query, order_by: [desc: ^field])
   end

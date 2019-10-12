@@ -11,12 +11,12 @@ defmodule LiveCommentWeb.CommentLive.Show do
     <a id="comment-anchor-<%= @comment.id %>" class="anchor"></a>
     <article class="comment comment--<%= @kind %>" id="comment-<%= @comment.id %>">
       <div class="comment-body">
-        (<%= @id %>) <%= @comment.body %>
+        <%= @comment.body %>
       </div>
 
       <div class="comment-footer">
         <p class="comment-reply">
-          <a href="#" phx-click="toggle-reply" title="Reply to this comment">reply</a>
+          <a href="javascript:;" phx-click="toggle-reply" title="Reply to this comment">reply</a>
         </p>
 
         <p class="comment-permalink">
@@ -26,15 +26,16 @@ defmodule LiveCommentWeb.CommentLive.Show do
 
       <%= if @form_visible do %>
         <%= f = form_for @changeset, "#", [class: "comment_form", phx_submit: :save] %>
-          <%= textarea f, :body, rows: 2, required: true, placeholder: "Your reply...", autofocus: true %>
+          <%= textarea f, :body, rows: 2, required: true,
+            placeholder: "Your reply...",
+            phx_hook: "CommentTextArea" %>
           <div class="comment_form-footer">
             <button type="submit">Reply</button>
           </div>
         </form>
       <% end %>
 
-      <section class="comment-replies" id="replies-<%= @comment.id %>" phx-update="append">
-        <% IO.inspect({:render_children, connected?(@socket), @id, for(c <- @children, do: "#{c.id}")}) %>
+      <section class="comment-replies" id="replies-<%= @id %>" phx-update="append">
         <%= for child <- @children do %>
           <%= live_component @socket, CommentLive.Show, id: child.id, comment: child, kind: :child %>
         <% end %>
@@ -48,13 +49,17 @@ defmodule LiveCommentWeb.CommentLive.Show do
      temporary_assigns: [comment: nil, children: []]}
   end
 
-  def update(assigns, socket) do
-    # IO.puts("  " <> inspect({:update, assigns.comment.body}))
-    {:ok, assign(socket, Map.put(assigns, :children, assigns.comment.children))}
-  end
-
   def handle_event("toggle-reply", _, socket) do
     {:noreply, update(socket, :form_visible, &(!&1))}
+  end
+
+  def preload(list_of_assigns) do
+    parent_ids = Enum.map(list_of_assigns, & &1.id)
+    children = Managed.fetch_child_comments(parent_ids)
+
+    Enum.map(list_of_assigns, fn assigns ->
+      Map.put(assigns, :children, Map.get(children, assigns.id, []))
+    end)
   end
 
   def handle_event("save", %{"comment" => comment_params}, socket) do
