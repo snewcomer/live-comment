@@ -20,20 +20,20 @@ hooks.CommentTextArea = {
   }
 }
 
-hooks.CommentList = {
-  mounted() {
-    buildComments();
-  },
-  updated() {
-    // build comments again to attach listeners to new nodes added
-    buildComments();
-    // TODO: phx-update="ignore" on form to avoid "disable" that doesn't get removed on update
-    // This is because the new diff won't have the PHX_DISABLED target to then re-enable
-    // Also need to figure out how to reset the form only on main form submit so to not clear out with
-    // adding a reply
-    document.getElementById('main-comment-form').reset();
-  }
-}
+// hooks.CommentList = {
+//   mounted() {
+//     buildComments();
+//   },
+//   updated() {
+//     // build comments again to attach listeners to new nodes added
+//     buildComments();
+//     // TODO: phx-update="ignore" on form to avoid "disable" that doesn't get removed on update
+//     // This is because the new diff won't have the PHX_DISABLED target to then re-enable
+//     // Also need to figure out how to reset the form only on main form submit so to not clear out with
+//     // adding a reply
+//     document.getElementById('main-comment-form').reset();
+//   }
+// }
 
 let liveSocket = new LiveSocket("/live", Socket, {hooks: hooks});
 liveSocket.connect();

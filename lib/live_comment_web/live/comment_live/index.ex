@@ -49,7 +49,7 @@ defmodule LiveCommentWeb.CommentLive.Index do
 
   def handle_info({Managed, :new_comment, comment}, socket) do
     if comment.parent_id do
-      send_update(CommentLive.Show, comment.parent_id, %{children: [comment]})
+      send_update(CommentLive.Show, id: comment.parent_id, children: [comment])
       {:noreply, socket}
     else
       {:noreply, assign(socket, comments: [comment])}
