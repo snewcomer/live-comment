@@ -1,16 +1,16 @@
 import {Socket} from "phoenix"
-import {LiveSocket, debug} from "./phoenix_live_view"
-import Comment from './modules/comment';
+import {LiveSocket} from "phoenix_live_view"
+// import Comment from './modules/comment';
 import autosize from "autosize"
 
-function buildComments(selector = '.js-comment') {
-  let comments = [...document.querySelectorAll(selector)];
-  comments.forEach(el => {
-    if (!el.comment) {
-      new Comment(el);
-    }
-  });
-}
+// function buildComments(selector = '.js-comment') {
+//   let comments = [...document.querySelectorAll(selector)];
+//   comments.forEach(el => {
+//     if (!el.comment) {
+//       new Comment(el);
+//     }
+//   });
+// }
 
 let hooks = {};
 
