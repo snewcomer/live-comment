@@ -17,7 +17,7 @@ defmodule LiveCommentWeb.Router do
   scope "/", LiveCommentWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
+    live "/", CommentLive.Index
   end
 
   # Other scopes may use custom stacks.

@@ -62,17 +62,18 @@
 }
 
 .comment-reply {
-  background-color: var(--blue-100);
-  border-radius: 3px;
-}
-.comment-reply:hover {
   background-color: var(--blue-200);
 }
 
 .comment-reply a {
   text-decoration: none;
-  padding: 10px 4px;
-  color: var(--gray-600);
+  padding: 0 6px;
+  color: var(--gray-700);
+}
+
+.comment-reply a:hover {
+  background-color: var(--blue-300);
+  color: var(--gray-300);
 }
 
 .comment-footer {

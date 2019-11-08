@@ -14,10 +14,10 @@ alias LiveComment.{Repo, Managed}
 
 comments = [
   %{
-    body: "Tweedle Dee"
+    body: "Elixir + Phoenix === 💜"
   },
   %{
-    body: "Dum"
+    body: "JavaScript?!?!  What JavaScript..."
   }
 ]
 

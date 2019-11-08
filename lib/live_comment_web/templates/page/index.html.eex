@@ -3,6 +3,6 @@
     <h2>Discussion</h2>
   </header>
 
-  <%= live_render(@conn, LiveCommentWeb.CommentLive) %>
+  <%= live_render(@conn, LiveCommentWeb.CommentLive.Index) %>
 </section>
 
