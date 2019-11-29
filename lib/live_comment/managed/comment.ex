@@ -3,8 +3,6 @@ defmodule LiveComment.Managed.Comment do
   import Ecto.Changeset
   import Ecto.Query, only: [from: 2]
 
-  alias LiveComment.Repo
-
   schema "comments" do
     field :body, :string
 

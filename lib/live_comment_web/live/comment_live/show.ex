@@ -3,13 +3,11 @@ defmodule LiveCommentWeb.CommentLive.Show do
   use Phoenix.HTML
 
   alias LiveComment.Managed
-  alias LiveComment.Managed.Comment
   alias LiveCommentWeb.CommentLive
   alias LiveCommentWeb.CommentView
 
   def render(assigns) do
     ~L"""
-    <a id="comment-anchor-<%= @comment.id %>" class="anchor"></a>
     <article class="comment comment--<%= @kind %>" id="comment-<%= @comment.id %>">
       <div class="comment-body">
         <%= @comment.body %>
@@ -35,7 +33,7 @@ defmodule LiveCommentWeb.CommentLive.Show do
         </form>
       <% end %>
 
-      <section class="comment-replies" id="replies-<%= @id %>" phx-update="append">
+      <section class="comment-replies" phx-update="append" id="replies-<%= @id %>">
         <%= for child <- @children do %>
           <%= live_component @socket, CommentLive.Show, id: child.id, comment: child, kind: :child %>
         <% end %>
