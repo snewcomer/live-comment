@@ -1,7 +1,14 @@
 defmodule LiveCommentWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :live_comment
 
-  socket "/live", Phoenix.LiveView.Socket
+  @session_options [
+    store: :cookie,
+    key: "_live_comment_key",
+    signing_salt: "tBnDiJKA"
+  ]
+
+  socket "/live", Phoenix.LiveView.Socket,
+    websocket: [connect_info: [session: @session_options]]
 
   # Serve at "/" the static files from "priv/static" directory.
   #
@@ -35,10 +42,7 @@ defmodule LiveCommentWeb.Endpoint do
   # The session will be stored in the cookie and signed,
   # this means its contents can be read but not tampered with.
   # Set :encryption_salt if you would also like to encrypt it.
-  plug Plug.Session,
-    store: :cookie,
-    key: "_live_comment_key",
-    signing_salt: "tBnDiJKA"
+  plug Plug.Session, @session_options
 
   plug LiveCommentWeb.Router
 end
