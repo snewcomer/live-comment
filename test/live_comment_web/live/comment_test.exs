@@ -1,5 +1,6 @@
 defmodule LiveComment.CommentLiveTest do
   use LiveCommentWeb.ConnCase, async: false
+
   import Phoenix.LiveViewTest
 
   alias LiveComment.Managed
@@ -33,11 +34,18 @@ defmodule LiveComment.CommentLiveTest do
 
     @tag :skip
     test "can submit main comment", %{conn: conn} do
-      comment_fixture()
       {:ok, view, html} = live(conn, "/")
       # this will call async send_update/2
       # Floki.find(id) is called before `Show` receives the message from send_update/2
-      assert render_submit(view, :save, %{"comment" => %{"body" => "weedledoop"}}) =~ "weedledoop"
+      render_submit(view, :save, %{"comment" => %{"body" => "weedledoop"}})
+    end
+
+    @tag :wip
+    test "send message to update", %{conn: conn} do
+      {:ok, view, html} = live(conn, "/")
+
+      comment = comment_fixture()
+      send(view.pid, {Managed, :new_comment, comment})
     end
 
     @tag :skip
