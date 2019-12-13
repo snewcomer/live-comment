@@ -11,7 +11,7 @@ defmodule LiveCommentWeb.CommentLive.Index do
       <div class="js-comment">
         <%= f = form_for @changeset, "#", class: "comment_form", phx_submit: "save", phx_hook: "Comment" %>
           <%= textarea f, :body, rows: 2, required: true, placeholder: "Cool beans..." %>
-          <div phx-update="ignore" class="comment_form-footer">
+          <div class="comment_form-footer">
             <button type="submit">Comment</button>
           </div>
         </form>
