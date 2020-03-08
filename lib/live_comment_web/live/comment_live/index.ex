@@ -26,7 +26,7 @@ defmodule LiveCommentWeb.CommentLive.Index do
     """
   end
 
-  def mount(_session, socket) do
+  def mount(_params, _session, socket) do
     comments = Managed.list_root_comments()
     changeset = Managed.change_comment()
     socket = assign(socket, [changeset: changeset, comments: comments])
